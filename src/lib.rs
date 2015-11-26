@@ -27,18 +27,18 @@ impl PathDiv {
     /// assert_eq!(home.get(0, false), Some(PathDiv::new("quininer")));
     /// ```
     pub fn get(&self, i: usize, rl: bool) -> Option<PathDiv> {
-        let it = self.as_path().iter();
+        let it = self.path().iter();
         it.clone()
             .nth(if rl { i } else { it.count() - i -1 })
             .map(PathDiv::new)
     }
 
-    pub fn as_path(&self) -> &Path {
+    pub fn path(&self) -> &Path {
         self.inner.as_path()
     }
 
     pub fn to_str(&self) -> Option<&str> {
-        self.as_path().to_str()
+        self.path().to_str()
     }
 }
 
@@ -50,7 +50,7 @@ impl AsRef<str> for PathDiv {
 
 impl AsRef<Path> for PathDiv {
     fn as_ref(&self) -> &Path {
-        self.inner.as_path()
+        self.path()
     }
 }
 
@@ -64,7 +64,7 @@ impl AsRef<Path> for PathDiv {
 ///
 /// let root = PathDiv::new("/");
 /// let home = root / "home" / "quininer";
-/// assert_eq!(home.as_path(), Path::new("/home/quininer"));
+/// assert_eq!(home.path(), Path::new("/home/quininer"));
 /// ```
 impl<T> Div<T> for PathDiv where T: AsRef<Path> {
     type Output = PathDiv;
@@ -90,7 +90,7 @@ impl Not for PathDiv {
     type Output = PathDiv;
 
     fn not(self) -> PathDiv {
-        match self.as_path().parent() {
+        match self.path().parent() {
             Some(path) => PathDiv::new(path),
             None => self.clone()
         }
