@@ -1,5 +1,6 @@
 #![feature(negate_unsigned)]
 
+use std::ffi::OsStr;
 use std::ops::{ Div, Not, Shl, Shr };
 use std::path::{ Path, PathBuf };
 
@@ -39,6 +40,12 @@ impl PathDiv {
 
     pub fn to_str(&self) -> Option<&str> {
         self.path().to_str()
+    }
+}
+
+impl AsRef<OsStr> for PathDiv {
+    fn as_ref(&self) -> &OsStr {
+        self.path().as_os_str()
     }
 }
 
