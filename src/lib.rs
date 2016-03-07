@@ -1,5 +1,3 @@
-#![feature(negate_unsigned)]
-
 use std::ffi::OsStr;
 use std::ops::{ Div, Not, Shl, Shr };
 use std::path::{ Path, PathBuf };
@@ -20,7 +18,6 @@ impl PathDiv {
     /// # Examples
     ///
     /// ```
-    /// #![feature(negate_unsigned)]
     /// use pathlib::PathDiv;
     ///
     /// let home = PathDiv::new("/home/quininer");
@@ -30,7 +27,7 @@ impl PathDiv {
     pub fn get(&self, i: usize, rl: bool) -> Option<PathDiv> {
         let it = self.path().iter();
         it.clone()
-            .nth(if rl { i } else { it.count() - i -1 })
+            .nth(if rl { i } else { it.count() - i - 1 })
             .map(PathDiv::new)
     }
 
