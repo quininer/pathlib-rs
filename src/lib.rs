@@ -1,5 +1,5 @@
 use std::ffi::OsStr;
-use std::ops::{ Div, Neg, Shl, Shr };
+use std::ops::{ Div, Neg, Shl, Shr, Deref };
 use std::path::{ Path, PathBuf };
 
 /// Path use div.
@@ -55,6 +55,13 @@ impl AsRef<str> for PathDiv {
 impl AsRef<Path> for PathDiv {
     fn as_ref(&self) -> &Path {
         self.path()
+    }
+}
+
+impl Deref for PathDiv {
+    type Target = PathBuf;
+    fn deref(&self) -> &PathBuf {
+        &self.inner
     }
 }
 
