@@ -1,5 +1,5 @@
 use std::ffi::OsStr;
-use std::ops::{ Div, Not, Shl, Shr };
+use std::ops::{ Div, Neg, Shl, Shr };
 use std::path::{ Path, PathBuf };
 
 /// Path use div.
@@ -87,13 +87,13 @@ impl<T> Div<T> for PathDiv where T: AsRef<Path> {
 /// use pathlib::PathDiv;
 ///
 /// let home = PathDiv::new("/home/quininer");
-/// assert_eq!(!home.clone(), PathDiv::new("/home"));
-/// assert_eq!(!!!home.clone(), PathDiv::new("/"));
+/// assert_eq!(-home.clone(), PathDiv::new("/home"));
+/// assert_eq!(---home.clone(), PathDiv::new("/"));
 /// ```
-impl Not for PathDiv {
+impl Neg for PathDiv {
     type Output = PathDiv;
 
-    fn not(self) -> PathDiv {
+    fn neg(self) -> PathDiv {
         match self.path().parent() {
             Some(path) => PathDiv::new(path),
             None => self.clone()
